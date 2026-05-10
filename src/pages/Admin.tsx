@@ -32,7 +32,27 @@ export default function Admin() {
   const [editingPost, setEditingPost] = React.useState<Post | null>(null);
   const [isAddingPost, setIsAddingPost] = React.useState(false);
   
-  const [localSettings, setLocalSettings] = React.useState<SiteSettings>(settings);
+  const [uploadedImage, setUploadedImage] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (editingSeed) setUploadedImage(seedToEditImage || editingSeed.image);
+    else if (editingPost) setUploadedImage(postToEditImage || editingPost.image || null);
+    else setUploadedImage(null);
+  }, [editingSeed, editingPost]);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadedImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const seedToEditImage = editingSeed?.image;
+  const postToEditImage = editingPost?.image;
 
   const stats = [
     { label: '전체 씨앗 종', value: seeds.length, icon: Droplets },
@@ -202,7 +222,7 @@ export default function Admin() {
                             category: formData.get('category') as string,
                             quantity: parseInt(formData.get('quantity') as string),
                             description: formData.get('description') as string,
-                            image: formData.get('image') as string,
+                            image: (formData.get('image') as string) || '',
                           };
                           
                           if (isAddingSeed) addSeed(data);
@@ -224,8 +244,24 @@ export default function Admin() {
                             <input name="quantity" type="number" defaultValue={editingSeed?.quantity} required className="w-full px-4 py-2 bg-brand-beige/20 border border-brand-khaki/10 rounded-xl" />
                           </div>
                           <div className="md:col-span-2">
-                            <label className="text-xs font-bold mb-1 block">이미지 URL</label>
-                            <input name="image" defaultValue={editingSeed?.image} required className="w-full px-4 py-2 bg-brand-beige/20 border border-brand-khaki/10 rounded-xl" />
+                            <label className="text-xs font-bold mb-1 block">씨앗 사진</label>
+                            <label className="flex items-center justify-center gap-2 px-4 py-6 bg-brand-beige/20 border-2 border-dashed border-brand-khaki/20 rounded-xl cursor-pointer hover:bg-brand-khaki/5 transition-colors mb-2">
+                              <span className="text-sm font-medium text-brand-khaki">{uploadedImage ? '사진 변경' : '사진 선택'}</span>
+                              <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
+                            </label>
+                            {uploadedImage && (
+                              <div className="relative w-20 h-20 rounded-xl overflow-hidden shadow-inner">
+                                <img src={uploadedImage} alt="Preview" className="w-full h-full object-cover" />
+                                <button 
+                                  type="button"
+                                  onClick={() => setUploadedImage(null)}
+                                  className="absolute top-1 right-1 p-0.5 bg-black/50 text-white rounded-full hover:bg-black/70"
+                                >
+                                  <X className="h-3 w-3" />
+                                </button>
+                                <input type="hidden" name="image" value={uploadedImage} />
+                              </div>
+                            )}
                           </div>
                           <div className="md:col-span-2">
                             <label className="text-xs font-bold mb-1 block">설명</label>
@@ -284,7 +320,7 @@ export default function Admin() {
                             title: formData.get('title') as string,
                             content: formData.get('content') as string,
                             author: formData.get('author') as string,
-                            image: formData.get('image') as string,
+                            image: (formData.get('image') as string) || undefined,
                             date: editingPost?.date || new Date().toISOString().split('T')[0],
                             tags: (formData.get('tags') as string).split(',').map(t => t.trim()),
                           };
@@ -308,8 +344,24 @@ export default function Admin() {
                             </div>
                           </div>
                           <div>
-                            <label className="text-xs font-bold mb-1 block">대표 이미지 URL</label>
-                            <input name="image" defaultValue={editingPost?.image} className="w-full px-4 py-3 bg-brand-beige/20 border border-brand-khaki/10 rounded-xl" />
+                            <label className="text-xs font-bold mb-1 block">대표 이미지</label>
+                            <label className="flex items-center justify-center gap-2 px-4 py-4 bg-brand-beige/20 border-2 border-dashed border-brand-khaki/20 rounded-xl cursor-pointer hover:bg-brand-khaki/5 transition-colors mb-2">
+                              <span className="text-sm font-medium text-brand-khaki">{uploadedImage ? '이미지 변경' : '사진 선택'}</span>
+                              <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
+                            </label>
+                            {uploadedImage && (
+                              <div className="relative aspect-[21/9] rounded-xl overflow-hidden shadow-inner">
+                                <img src={uploadedImage} alt="Preview" className="w-full h-full object-cover" />
+                                <button 
+                                  type="button"
+                                  onClick={() => setUploadedImage(null)}
+                                  className="absolute top-2 right-2 p-1 bg-black/50 text-white rounded-full hover:bg-black/70"
+                                >
+                                  <X className="h-4 w-4" />
+                                </button>
+                                <input type="hidden" name="image" value={uploadedImage} />
+                              </div>
+                            )}
                           </div>
                           <div>
                             <label className="text-xs font-bold mb-1 block">내용</label>

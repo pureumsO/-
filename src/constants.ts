@@ -64,7 +64,7 @@ export const INITIAL_POSTS: Post[] = [
 ];
 
 export const DEFAULT_SETTINGS: SiteSettings = {
-  title: '함평초 씨앗도서관',
+  title: '함평초 4-1 씨앗도서관',
   description: '씨앗을 빌려주고 마음을 나누는 곳',
   primaryColor: COLORS.khaki,
   bgColor: COLORS.beige,

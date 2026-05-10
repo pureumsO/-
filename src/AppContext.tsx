@@ -33,7 +33,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const [settings, setSettings] = useState<SiteSettings>(() => {
     const saved = localStorage.getItem('settings');
-    return saved ? JSON.parse(saved) : DEFAULT_SETTINGS;
+    const data = saved ? JSON.parse(saved) : DEFAULT_SETTINGS;
+    // Migration: Update old title to new title
+    if (data.title === '함평초 씨앗도서관') {
+      data.title = '함평초 4-1 씨앗도서관';
+    }
+    return data;
   });
 
   const [lendingRecords, setLendingRecords] = useState<LendingRecord[]>(() => {

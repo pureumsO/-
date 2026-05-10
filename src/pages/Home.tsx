@@ -35,16 +35,13 @@ export default function Home() {
               <span className="text-brand-beige">씨앗을 빌려드립니다.</span>
             </h1>
             <p className="text-lg md:text-xl mb-8 text-white/90 font-light leading-relaxed">
-              함평초등학교 학생들이 운영하는 특별한 도서관입니다. 
+              함평초등학교 4학년 1반 학생들이 운영하는 특별한 도서관입니다. 
               책 대신 씨앗을 빌려가고, 정성으로 키워 다시 씨앗으로 되돌려주는 
               생명의 순환을 함께 경험해보세요.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link to="/catalog" className="px-8 py-4 bg-brand-khaki text-white rounded-full font-medium hover:bg-brand-dark transition-all flex items-center gap-2">
                 씨앗 둘러보기 <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link to="/about" className="px-8 py-4 bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-full font-medium hover:bg-white/20 transition-all">
-                도서관 소개
               </Link>
             </div>
           </motion.div>

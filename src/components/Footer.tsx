@@ -28,9 +28,8 @@ export default function Footer() {
             <h3 className="text-sm font-semibold text-brand-khaki uppercase tracking-wider mb-4">링크</h3>
             <ul className="space-y-2">
               <li><a href="/" className="text-brand-dark/60 hover:text-brand-khaki transition-colors">홈</a></li>
-              <li><a href="/catalog" className="text-brand-dark/60 hover:text-brand-khaki transition-colors">씨앗 도서관</a></li>
+              <li><a href="/catalog" className="text-brand-dark/60 hover:text-brand-khaki transition-colors">대출 및 반납</a></li>
               <li><a href="/blog" className="text-brand-dark/60 hover:text-brand-khaki transition-colors">활동 소식</a></li>
-              <li><a href="/about" className="text-brand-dark/60 hover:text-brand-khaki transition-colors">도서관 소개</a></li>
             </ul>
           </div>
           
@@ -51,8 +50,8 @@ export default function Footer() {
         </div>
         
         <div className="mt-12 pt-8 border-t border-brand-khaki/5 text-center text-brand-dark/40 text-sm">
-          <p>© {new Date().getFullYear()} 함평초 씨앗도서관. All rights reserved.</p>
-          <p className="mt-1">함평초등학교 학생 운영위원회 제작</p>
+          <p>© {new Date().getFullYear()} 함평초 4-1 씨앗도서관. All rights reserved.</p>
+          <p className="mt-1">함평초등학교 4학년 1반 학생 운영위원회 제작</p>
         </div>
       </div>
     </footer>

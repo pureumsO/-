@@ -33,7 +33,7 @@ export default function Catalog() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="text-center mb-16">
-        <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4 text-brand-khaki">씨앗 도서관</h1>
+        <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4 text-brand-khaki">대출 및 반납</h1>
         <p className="text-brand-dark/60 max-w-2xl mx-auto">
           다양한 종류의 씨앗들이 여러분을 기다리고 있습니다. 
           키우고 싶은 씨앗을 골라 대출 신청을 해주세요.

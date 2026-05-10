@@ -11,9 +11,8 @@ export default function Navbar() {
 
   const navItems = [
     { name: '홈', path: '/' },
-    { name: '씨앗 도서관', path: '/catalog' },
+    { name: '대출 및 반납', path: '/catalog' },
     { name: '활동 소식', path: '/blog' },
-    { name: '도서관 소개', path: '/about' },
   ];
 
   return (

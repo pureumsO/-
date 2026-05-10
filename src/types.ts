@@ -37,4 +37,5 @@ export interface SiteSettings {
   primaryColor: string;
   bgColor: string;
   fontFamily: string;
+  adminPassword?: string;
 }

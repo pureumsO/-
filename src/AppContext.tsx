@@ -38,6 +38,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (data.title === '함평초 씨앗도서관') {
       data.title = '함평초 4-1 씨앗도서관';
     }
+    // Migration: Add default password if missing
+    if (!data.adminPassword) {
+      data.adminPassword = '0000';
+    }
     return data;
   });
 

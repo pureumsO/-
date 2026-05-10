@@ -32,7 +32,33 @@ export default function Admin() {
   const [editingPost, setEditingPost] = React.useState<Post | null>(null);
   const [isAddingPost, setIsAddingPost] = React.useState(false);
   
+  const [localSettings, setLocalSettings] = React.useState<SiteSettings>(settings);
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [passwordInput, setPasswordInput] = React.useState('');
+  const [currentPasswordInput, setCurrentPasswordInput] = React.useState('');
+  const [newPasswordInput, setNewPasswordInput] = React.useState('');
   const [uploadedImage, setUploadedImage] = React.useState<string | null>(null);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordInput === settings.adminPassword) {
+      setIsAuthenticated(true);
+    } else {
+      alert('비밀번호가 올바르지 않습니다.');
+    }
+  };
+
+  const handleChangePassword = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (currentPasswordInput === settings.adminPassword) {
+      updateSettings({ ...settings, adminPassword: newPasswordInput });
+      alert('비밀번호가 성공적으로 변경되었습니다.');
+      setCurrentPasswordInput('');
+      setNewPasswordInput('');
+    } else {
+      alert('현재 비밀번호가 올바르지 않습니다.');
+    }
+  };
 
   React.useEffect(() => {
     if (editingSeed) setUploadedImage(seedToEditImage || editingSeed.image);
@@ -66,6 +92,46 @@ export default function Admin() {
     updateSettings(localSettings);
     alert('설정이 저장되었습니다.');
   };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-[70vh] flex items-center justify-center px-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white rounded-[2.5rem] p-8 md:p-12 w-full max-w-md shadow-xl border border-brand-khaki/5"
+        >
+          <div className="flex flex-col items-center text-center mb-8">
+            <div className="p-4 bg-brand-beige rounded-2xl text-brand-khaki mb-4">
+              <SettingsIcon className="h-8 w-8" />
+            </div>
+            <h1 className="text-2xl font-serif font-bold text-brand-khaki mb-2">관리자 접속</h1>
+            <p className="text-brand-dark/60 text-sm">관리자 페이지에 접속하기 위해 비밀번호를 입력해주세요.</p>
+          </div>
+          
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label className="block text-xs font-bold text-brand-dark/40 uppercase tracking-widest mb-2">비밀번호</label>
+              <input 
+                autoFocus
+                type="password" 
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                placeholder="비밀번호 입력"
+                className="w-full px-6 py-4 bg-brand-beige/20 border border-brand-khaki/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-brand-khaki/20"
+              />
+            </div>
+            <button 
+              type="submit"
+              className="w-full py-4 bg-brand-khaki text-white rounded-2xl font-bold shadow-lg shadow-brand-khaki/20 hover:bg-brand-dark transition-all transform active:scale-95"
+            >
+              접속하기
+            </button>
+          </form>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -437,6 +503,40 @@ export default function Admin() {
                         className="w-full md:w-auto px-8 py-3 bg-brand-khaki text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-brand-dark transition-all"
                       >
                         <Save className="h-5 w-5" /> 변경사항 저장
+                      </button>
+                    </div>
+                  </form>
+
+                  <div className="h-px bg-brand-khaki/10 my-12" />
+
+                  <h2 className="text-3xl font-serif font-bold text-brand-khaki mb-8">비밀번호 변경</h2>
+                  <form onSubmit={handleChangePassword} className="max-w-xl space-y-6">
+                    <div>
+                      <label className="text-sm font-semibold mb-2 block">현재 비밀번호</label>
+                      <input 
+                        required
+                        type="password"
+                        value={currentPasswordInput}
+                        onChange={(e) => setCurrentPasswordInput(e.target.value)}
+                        className="w-full px-4 py-3 bg-white border border-brand-khaki/10 rounded-xl focus:ring-2 focus:ring-brand-khaki/20"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-semibold mb-2 block">새 비밀번호</label>
+                      <input 
+                        required
+                        type="password"
+                        value={newPasswordInput}
+                        onChange={(e) => setNewPasswordInput(e.target.value)}
+                        className="w-full px-4 py-3 bg-white border border-brand-khaki/10 rounded-xl focus:ring-2 focus:ring-brand-khaki/20"
+                      />
+                    </div>
+                    <div className="pt-4">
+                      <button 
+                        type="submit"
+                        className="w-full md:w-auto px-8 py-3 bg-brand-khaki text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-brand-dark transition-all"
+                      >
+                        <Save className="h-5 w-5" /> 비밀번호 변경
                       </button>
                     </div>
                   </form>

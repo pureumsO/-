@@ -34,6 +34,10 @@ export default function Admin() {
   
   const [localSettings, setLocalSettings] = React.useState<SiteSettings>(settings);
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+
+  React.useEffect(() => {
+    setLocalSettings(settings);
+  }, [settings]);
   const [passwordInput, setPasswordInput] = React.useState('');
   const [currentPasswordInput, setCurrentPasswordInput] = React.useState('');
   const [newPasswordInput, setNewPasswordInput] = React.useState('');
@@ -87,9 +91,9 @@ export default function Admin() {
     { label: '누적 반납 완료', value: lendingRecords.filter(r => r.status === 'returned').length, icon: CheckCircle2 },
   ];
 
-  const handleSaveSettings = (e: React.FormEvent) => {
+  const handleSaveSettings = async (e: React.FormEvent) => {
     e.preventDefault();
-    updateSettings(localSettings);
+    await updateSettings(localSettings);
     alert('설정이 저장되었습니다.');
   };
 
@@ -291,8 +295,8 @@ export default function Admin() {
                             image: (formData.get('image') as string) || '',
                           };
                           
-                          if (isAddingSeed) addSeed(data);
-                          else if (editingSeed) updateSeed({ ...data, id: editingSeed.id });
+                          if (isAddingSeed) await addSeed(data);
+                          else if (editingSeed) await updateSeed({ ...data, id: editingSeed.id });
                           
                           setIsAddingSeed(false);
                           setEditingSeed(null);

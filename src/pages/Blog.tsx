@@ -23,11 +23,11 @@ export default function Blog() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !content) return;
 
-    addPost({
+    await addPost({
       title,
       content,
       author: author || '작성자',

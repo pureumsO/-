@@ -20,10 +20,10 @@ export default function Catalog() {
     return matchesSearch && matchesCategory;
   });
 
-  const handleLend = (e: React.FormEvent) => {
+  const handleLend = async (e: React.FormEvent) => {
     e.preventDefault();
     if (lendingSeed && borrowerName) {
-      lendSeed(lendingSeed, borrowerName);
+      await lendSeed(lendingSeed, borrowerName);
       setLendingSeed(null);
       setBorrowerName('');
       alert('대출 신청이 완료되었습니다!');

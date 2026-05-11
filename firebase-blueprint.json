@@ -1,0 +1,76 @@
+{
+  "entities": {
+    "Seed": {
+      "title": "Seed",
+      "description": "A seed available in the library",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "image": { "type": "string" },
+        "quantity": { "type": "integer" },
+        "category": { "type": "string" }
+      },
+      "required": ["name", "description", "image", "quantity", "category"]
+    },
+    "Post": {
+      "title": "Post",
+      "description": "A blog post or activity update",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "date": { "type": "string" },
+        "author": { "type": "string" },
+        "image": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["title", "content", "date", "author", "tags"]
+    },
+    "LendingRecord": {
+      "title": "LendingRecord",
+      "description": "Record of a seed being borrowed",
+      "type": "object",
+      "properties": {
+        "seedId": { "type": "string" },
+        "borrowerName": { "type": "string" },
+        "lendingDate": { "type": "string" },
+        "returnDate": { "type": "string" },
+        "status": { "type": "string", "enum": ["lending", "returned"] }
+      },
+      "required": ["seedId", "borrowerName", "lendingDate", "status"]
+    },
+    "SiteSettings": {
+      "title": "SiteSettings",
+      "description": "Global application settings",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "primaryColor": { "type": "string" },
+        "bgColor": { "type": "string" },
+        "fontFamily": { "type": "string" },
+        "adminPassword": { "type": "string" }
+      },
+      "required": ["title", "description", "primaryColor", "bgColor", "fontFamily", "adminPassword"]
+    }
+  },
+  "firestore": {
+    "seeds/{seedId}": {
+      "schema": "Seed",
+      "description": "Collection of seeds"
+    },
+    "posts/{postId}": {
+      "schema": "Post",
+      "description": "Collection of blog posts"
+    },
+    "lendingRecords/{recordId}": {
+      "schema": "LendingRecord",
+      "description": "Collection of lending records"
+    },
+    "settings/global": {
+      "schema": "SiteSettings",
+      "description": "Global settings document"
+    }
+  }
+}

@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Helpers ---
+    function isValidId(id) { 
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); 
+    }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isSignedIn() { return request.auth != null; }
+
+    // --- Validation Blueprints ---
+    function isValidSeed(data) {
+      return data.keys().hasAll(['name', 'description', 'image', 'quantity', 'category']) &&
+             data.name is string && data.name.size() <= 100 &&
+             data.description is string && data.description.size() <= 500 &&
+             data.image is string && data.image.size() <= 200000 && // Base64 or URL
+             data.quantity is int &&
+             data.category is string;
+    }
+
+    function isValidPost(data) {
+      return data.keys().hasAll(['title', 'content', 'date', 'author', 'tags']) &&
+             data.title is string && data.title.size() <= 200 &&
+             data.content is string && data.content.size() <= 10000 &&
+             data.date is string &&
+             data.author is string &&
+             data.tags is list && data.tags.size() <= 10;
+    }
+
+    function isValidLendingRecord(data) {
+      return data.keys().hasAll(['seedId', 'borrowerName', 'lendingDate', 'status']) &&
+             data.seedId is string &&
+             data.borrowerName is string && data.borrowerName.size() <= 50 &&
+             data.lendingDate is string &&
+             data.status in ['lending', 'returned'];
+    }
+
+    function isValidSettings(data) {
+      return data.keys().hasAll(['title', 'description', 'primaryColor', 'bgColor', 'fontFamily', 'adminPassword']) &&
+             data.title is string &&
+             data.description is string &&
+             data.primaryColor is string &&
+             data.bgColor is string &&
+             data.fontFamily is string &&
+             data.adminPassword is string;
+    }
+
+    // --- Rules ---
+
+    match /seeds/{seedId} {
+      allow read: if true;
+      allow write: if true; // Public for now, as requested implicitly by school project flow
+    }
+
+    match /posts/{postId} {
+      allow read: if true;
+      allow create: if isValidPost(incoming());
+      allow update: if isValidPost(incoming());
+      allow delete: if true;
+    }
+
+    match /lendingRecords/{recordId} {
+      allow read: if true;
+      allow write: if isValidLendingRecord(incoming());
+    }
+
+    match /settings/global {
+      allow read: if true;
+      allow write: if isValidSettings(incoming());
+    }
+  }
+}

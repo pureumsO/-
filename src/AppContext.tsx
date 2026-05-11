@@ -38,9 +38,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (data.title === '함평초 씨앗도서관') {
       data.title = '함평초 4-1 씨앗도서관';
     }
-    // Migration: Add default password if missing
-    if (!data.adminPassword) {
-      data.adminPassword = '0000';
+    // Migration: Update default password from 0000 to 4141
+    if (data.adminPassword === '0000' || !data.adminPassword) {
+      data.adminPassword = '4141';
     }
     return data;
   });

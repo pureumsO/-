@@ -69,5 +69,5 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   primaryColor: COLORS.khaki,
   bgColor: COLORS.beige,
   fontFamily: 'serif',
-  adminPassword: '0000',
+  adminPassword: '4141',
 };

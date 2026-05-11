@@ -284,7 +284,7 @@ export default function Admin() {
                         <h3 className="text-2xl font-serif font-bold mb-6">
                           {isAddingSeed ? '새 씨앗 등록' : '씨앗 정보 수정'}
                         </h3>
-                        <form onSubmit={(e) => {
+                        <form onSubmit={async (e) => {
                           e.preventDefault();
                           const formData = new FormData(e.currentTarget);
                           const data = {
@@ -383,7 +383,7 @@ export default function Admin() {
                     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-brand-dark/40 backdrop-blur-sm">
                       <div className="bg-white rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                         <h3 className="text-2xl font-serif font-bold mb-6">{isAddingPost ? '새 게시글 작성' : '게시글 수정'}</h3>
-                        <form onSubmit={(e) => {
+                        <form onSubmit={async (e) => {
                           e.preventDefault();
                           const formData = new FormData(e.currentTarget);
                           const data = {
@@ -394,8 +394,8 @@ export default function Admin() {
                             date: editingPost?.date || new Date().toISOString().split('T')[0],
                             tags: (formData.get('tags') as string).split(',').map(t => t.trim()),
                           };
-                          if (isAddingPost) addPost(data);
-                          else if (editingPost) updatePost({ ...data, id: editingPost.id });
+                          if (isAddingPost) await addPost(data);
+                          else if (editingPost) await updatePost({ ...data, id: editingPost.id });
                           setIsAddingPost(false);
                           setEditingPost(null);
                         }} className="space-y-4">
